@@ -91,36 +91,50 @@ std::ostream& operator<<(std::ostream& out, const Connection& c) {
 
 // STUDENT TODO: IMPLEMENT
 void Graph::updateNode(int id, NodeInfo n) {
-    if (/* id is out of bounds — check if id is a valid index into nodes */ true) {
+    if (id < 0 || nodes.size() <= id) { //if node is out of bounds
         cout << "Attempting to update node with id: " << id << " but node does not exist" << endl;
         return;
     }
 
-    return; //stub
+    delete(nodes[id]); //remove what is there right now
+    nodes[id] = new NodeInfo(n);
+
 }
 
 // STUDENT TODO: IMPLEMENT
 NodeInfo* Graph::getNode(int id) const {
-    return nullptr; //stub
+    if (id < 0 || nodes.size() <= id) {
+        return nullptr; //out of range, so null
+    }
+
+    //if not out of range, return the pointer to it
+    return nodes[id]; //nodes is a vector that stores NodeInfo pointers
 }
 
 // STUDENT TODO: IMPLEMENT
 void Graph::updateConnection(int v, int u, double w) {
-    if (/* v is out of bounds — check if v is a valid index into nodes */ true) {
+    if (v < 0 || nodes.size() <= v) {
         cerr << "Attempting to update connection between " << v << " and " << u << " with weight " << w << " but " << v << " does not exist" << endl;
         exit(1);
     }
-    if (/* u is out of bounds — check if u is a valid index into nodes */ true) {
+    if (u < 0 || nodes.size() <= u) {
         cerr << "Attempting to update connection between " << v << " and " << u << " with weight " << w << " but " << u << " does not exist" << endl;
         exit(1);
     }
 
-    return; //stub
+    adjacencyList[v][u] = Connection(v, u, w); //update the v to u connection in the adjacency list
+    //by giving it weight w, either overrides existing or inserts if not yet existing
+
+
+
 }
 
 // STUDENT TODO: IMPLEMENT
 void Graph::clear() {
-    return; //stub
+    for (int i = 0; i < nodes.size(); i++) {
+        delete(nodes[i]); //clear it!
+        nodes[i] = nullptr; //...but don't let it be a dangling pointer
+    }
 }
 
 
